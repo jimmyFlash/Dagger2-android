@@ -1,6 +1,7 @@
 package com.example.android.dagger.di
 
 import android.content.Context
+import com.example.android.dagger.main.MainActivity
 import com.example.android.dagger.registration.RegistrationActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -39,4 +40,5 @@ interface AppComponent {
     //we're telling Dagger that RegistrationActivity requests injection and that it has to
     // provide what the Activity is injecting (i.e. RegistrationViewModel)
     fun inject(activity: RegistrationActivity)
+    fun inject(activity: MainActivity)
 }

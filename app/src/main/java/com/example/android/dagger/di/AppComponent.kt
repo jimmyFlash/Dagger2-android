@@ -1,6 +1,8 @@
 package com.example.android.dagger.di
 
+import android.content.Context
 import com.example.android.dagger.registration.RegistrationActivity
+import dagger.BindsInstance
 import dagger.Component
 
 /**
@@ -17,8 +19,22 @@ import dagger.Component
  * The parameter of the interface methods define what classes request injection.
  */
 
-@Component
+@Component(modules = [StorageModule::class])
 interface AppComponent {
+
+    /*
+        Context is provided by the Android system and therefore constructed outside of the graph.
+        Since Context is already available at the time we'll be creating an instance of the graph,
+        we can pass it in
+     */
+    // Factory to create instances of the AppComponent
+    @Component.Factory
+    interface Factory {
+        // With @BindsInstance, the Context passed in will be available in the graph
+        //@BindsInstance tells Dagger that it needs to add that instance in the graph
+        // and whenever Context is required, provide that instance.
+        fun create(@BindsInstance context: Context): AppComponent
+    }
 
     //we're telling Dagger that RegistrationActivity requests injection and that it has to
     // provide what the Activity is injecting (i.e. RegistrationViewModel)

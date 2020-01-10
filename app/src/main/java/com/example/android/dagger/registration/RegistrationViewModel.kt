@@ -17,12 +17,25 @@
 package com.example.android.dagger.registration
 
 import com.example.android.dagger.user.UserManager
+import javax.inject.Inject
 
 /**
  * RegistrationViewModel is the ViewModel that the Registration flow ([RegistrationActivity]
  * and fragments) uses to keep user's input data.
+ * RegistrationViewModel is not an Android Architecture Components ViewModel;
+ * it's just a regular class that acts as a ViewModel.
+ *
+ * Dagger needs to know how to create instances for the classes in the graph.
+ * One way to do this is by annotating the constructor of classes with @Inject.
+ * The constructor parameters will be the dependencies of that type
+ *
+ * In Kotlin, to apply an annotation to the constructor,
+ * you need to specifically add the keyword constructor and introduce the annotation just before it
  */
-class RegistrationViewModel(val userManager: UserManager) {
+
+// @Inject tells Dagger how to provide instances of this type
+// Dagger also knows that UserManager is a dependency
+class RegistrationViewModel @Inject constructor(val userManager: UserManager) {
 
     private var username: String? = null
     private var password: String? = null

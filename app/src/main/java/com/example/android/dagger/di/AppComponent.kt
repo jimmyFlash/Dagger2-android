@@ -5,6 +5,7 @@ import com.example.android.dagger.main.MainActivity
 import com.example.android.dagger.registration.RegistrationActivity
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
 /**
  * We want Dagger to create the graph of dependencies of our project,
@@ -19,7 +20,9 @@ import dagger.Component
  * A @Component interface gives the information Dagger needs to generate the graph at compile-time.
  * The parameter of the interface methods define what classes request injection.
  */
-
+// If we annotate a Component with @Singleton, all the classes also annotated with
+// it will be scoped to the annotated Component
+@Singleton
 @Component(modules = [StorageModule::class])
 interface AppComponent {
 

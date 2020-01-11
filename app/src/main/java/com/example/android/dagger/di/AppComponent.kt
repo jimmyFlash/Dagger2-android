@@ -2,6 +2,7 @@ package com.example.android.dagger.di
 
 import android.content.Context
 import com.example.android.dagger.main.MainActivity
+import com.example.android.dagger.registration.LoginComponent
 import com.example.android.dagger.registration.RegistrationComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -49,8 +50,12 @@ interface AppComponent {
          (e.g. fun registrationComponent(): RegistrationComponent.Factory).
      */
 
+    // Types that can be retrieved from the graph
     // Expose RegistrationComponent factory from the graph
     fun registrationComponent(): RegistrationComponent.Factory
+    // For the LoginActivity to be able to access the LoginComponent factory,
+    // we have to expose it in the AppComponent interface.
+    fun loginComponent(): LoginComponent.Factory
 
     fun inject(activity: MainActivity)
 

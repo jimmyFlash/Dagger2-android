@@ -18,14 +18,20 @@ package com.example.android.dagger.settings
 
 import com.example.android.dagger.user.UserDataRepository
 import com.example.android.dagger.user.UserManager
+import javax.inject.Inject
 
 /**
  * SettingsViewModel is the ViewModel that [SettingsActivity] uses to handle complex logic.
  */
-class SettingsViewModel(
+
+/*
+Tell Dagger how to create instances of SettingsActivity dependencies (i.e. SettingsViewModel)
+by annotating its constructor with @Inject.
+Dagger already knows how to create instances of SettingsViewModel dependencies.
+ */
+class SettingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
-    private val userManager: UserManager
-) {
+    private val userManager: UserManager) {
 
     fun refreshNotifications() {
         userDataRepository.refreshUnreadNotifications()

@@ -31,12 +31,13 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    /*
+     UserManager shouldn't be injected anymore since we can grab
+     it from appComponent directly. Remove the userManager field
+     */
+
     // @Inject annotated fields will be provided by Dagger
     // Note : Dagger does not support injection into private fields
-    @Inject
-    lateinit var userManager: UserManager
-
-
     @Inject
     lateinit var mainViewModel: MainViewModel
 
@@ -47,11 +48,19 @@ class MainActivity : AppCompatActivity() {
      * else carry on with MainActivity
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        (application as MyApplication).appComponent.inject(this)
-
         super.onCreate(savedInstanceState)
 
+        /*
+            Important: Doing conditional field injection (as we're doing in MainActivity.kt
+            when injecting only if the user is logged in) is very dangerous.
+            The developers have to be aware of the conditions and you risk getting
+            NullPointerExceptions when interacting with injected fields.
+
+            To avoid this issue, we can add some indirection by creating a SplashScreen that routes
+            to either Registration, Login or Main depending on the state of the user
+         */
+        //  Grab userManager from appComponent to check if the user is logged in or not
+        val userManager = (application as MyApplication).appComponent.userManager()
 
         if (!userManager.isUserLoggedIn()) {
             if (!userManager.isUserRegistered()) {
@@ -63,6 +72,10 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             setContentView(R.layout.activity_main)
+
+            // If the MainActivity needs to be displayed, we get the UserComponent
+            // from the application graph and gets this Activity injected
+            userManager.userComponent!!.inject(this)
 
             setupViews()
         }

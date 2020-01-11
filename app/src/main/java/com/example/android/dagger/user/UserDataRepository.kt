@@ -22,6 +22,22 @@ import kotlin.random.Random
 /**
  * UserDataRepository contains user-specific data such as username and unread notifications.
  */
+
+/*
+Problem:
+Can we scope UserDataRepository to AppComponent by annotating it with @Singleton?
+No, we don't want to do it because if the user logs out or unregisters,
+we don't want to keep the same instance of UserDataRepository in memory.
+That data is specific to a logged in user.
+
+We want to create a Component (UserComponent) that lives as long as the user is logged in.
+All the Activities that can be accessed after the user is logged in will be injected
+by this component (i.e. MainActivity and SettingsActivity)
+ */
+
+// This object will have a unique instance in a Component that
+// is annotated with @LoggedUserScope (i.e. only UserComponent in this case).
+@LoggedUserScope
 class UserDataRepository @Inject constructor(private val userManager: UserManager) {
 
     val username: String

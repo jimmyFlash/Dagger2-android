@@ -16,13 +16,21 @@
 
 package com.example.android.dagger.storage
 
+import com.example.android.dagger.settings.UserComponent
 import com.example.android.dagger.user.UserManager
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 
+/**
+ * All unit tests remain the same as with manual dependency injection except one.
+ * When we added the UserComponent.Factory to UserManager, we broke its unit tests.
+ * We have to mock what Dagger would return when calling create() on the factory.
+ */
 class UserManagerTest {
 
     private lateinit var storage: Storage
@@ -30,8 +38,13 @@ class UserManagerTest {
 
     @Before
     fun setup() {
+        // Return mock userComponent when calling the factory
+        val userComponentFactory = Mockito.mock(UserComponent.Factory::class.java)
+        val userComponent = Mockito.mock(UserComponent::class.java)
+        `when`(userComponentFactory.create()).thenReturn(userComponent)
+
         storage = FakeStorage()
-        userManager = UserManager(storage)
+        userManager = UserManager(storage, userComponentFactory)
     }
 
     @Test

@@ -63,4 +63,10 @@ dependencies {
      */
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    /*
+    kapt is not acting on the androidTest folder.
+    You have to add the dagger annotation processor artifact to androidTest
+     */
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
 }

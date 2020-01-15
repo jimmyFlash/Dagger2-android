@@ -24,6 +24,10 @@ import androidx.test.runner.AndroidJUnitRunner
  * A custom [AndroidJUnitRunner] used to replace the application used in tests with a
  * [MyTestApplication].
  */
+/*
+The project knows that this TestRunner needs to be used when running instrumentation
+tests because it's specified in the app/build.gradle file.
+ */
 class MyCustomTestRunner : AndroidJUnitRunner() {
 
     override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {

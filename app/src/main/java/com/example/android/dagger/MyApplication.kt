@@ -33,18 +33,22 @@ open class MyApplication : Application() {
     custom Application class in tests
      */
     // Instance of the AppComponent that will be used by all the Activities in the project
+
     val appComponent: AppComponent by lazy {
         /*
-            Dagger generated a class called DaggerAppComponent containing the implementation
-            of the AppComponent graph when we built the project. Since we defined a Component
-            Factory with the @Component.Factory annotation, we can call .factory()
-            that is a static method of DaggerAppComponent. With that, we can now call the create
-            method we defined inside the factory where we pass the Context
-            (in this case applicationContext) in.
-         */
+         Dagger generated a class called DaggerAppComponent containing the implementation
+         of the AppComponent graph when we built the project. Since we defined a Component
+         Factory with the @Component.Factory annotation, we can call .factory()
+         that is a static method of DaggerAppComponent. With that, we can now call the create
+         method we defined inside the factory where we pass the Context
+         (in this case applicationContext) in.
+      */
         // Creates an instance of AppComponent using its Factory constructor
         // We pass the applicationContext that will be used as Context in the graph
-        DaggerAppComponent.factory().create(applicationContext)
+        initializeComponent()
     }
 
+    open fun initializeComponent(): AppComponent {
+        return DaggerAppComponent.factory().create(applicationContext)
+    }
 }
